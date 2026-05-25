@@ -1,0 +1,51 @@
+{
+	"name": "HookAssetLoader",
+	"version": "1.0.2",
+	"author": "Andrew Lehti",
+	"url": "https://github.com/andylehti/HookAssetLoader",
+	"descriptionmsg": "hookassetloader-desc",
+	"type": "parserhook",
+	"license-name": "MIT",
+	"requires": {
+		"MediaWiki": ">=1.39.0"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\HookAssetLoader\\": "src/"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": "MediaWiki\\Extension\\HookAssetLoader\\Hooks::onParserFirstCallInit",
+		"ResourceLoaderRegisterModules": "MediaWiki\\Extension\\HookAssetLoader\\Hooks::onResourceLoaderRegisterModules",
+		"getUserPermissionsErrors": "MediaWiki\\Extension\\HookAssetLoader\\Hooks::onGetUserPermissionsErrors"
+	},
+	"MessagesDirs": {
+		"HookAssetLoader": [
+			"i18n"
+		]
+	},
+	"AvailableRights": [
+		"hookassetloader-manage"
+	],
+	"GroupPermissions": {
+		"interface-admin": {
+			"hookassetloader-manage": true
+		}
+	},
+	"config": {
+		"HookAssetLoaderRegistryPage": {
+			"value": "HookAssetLoader.json"
+		},
+		"HookAssetLoaderAssetPrefix": {
+			"value": "HookAsset-"
+		},
+		"HookAssetLoaderDefaultDependencies": {
+			"value": [
+				"mediawiki.util",
+				"jquery"
+			]
+		},
+		"HookAssetLoaderDebugErrors": {
+			"value": true
+		}
+	},
+	"manifest_version": 2
+}

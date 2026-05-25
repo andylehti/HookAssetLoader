@@ -1,0 +1,71 @@
+{{PD Help Page}}
+
+# HookAssetLoader
+
+HookAssetLoader lets trusted editors place approved page-specific JavaScript and CSS assets on a page without loading those assets globally across the wiki.
+
+Use it when a page needs a specific layout, interactive element, or page tool that should not be part of every page.
+
+## Basic usage
+
+<syntaxhighlight lang="html">
+<hook-load module="clean-wide"></hook-load>
+</syntaxhighlight>
+
+The module name must already be approved by an administrator in <code>MediaWiki:HookAssetLoader.json</code>.
+
+## Usage with content
+
+Some assets may read content placed inside the tag:
+
+<syntaxhighlight lang="html">
+<hook-load module="sticky-note">
+Please remember to sign your posts using four tildes.
+</hook-load>
+</syntaxhighlight>
+
+The exact behavior depends on the JavaScript and CSS written by the administrator for that asset.
+
+## Alias syntax
+
+<syntaxhighlight lang="html">
+<hookasset name="clean-wide"></hookasset>
+</syntaxhighlight>
+
+## Errors
+
+If the module name is missing, invalid, not approved, or has no matching CSS/JavaScript page, the extension may show an inline error. Administrators can disable inline errors with <code>$wgHookAssetLoaderDebugErrors = false;</code>.
+
+## Asset names
+
+Asset names must use lowercase letters, numbers, and hyphens only. They must begin with a letter.
+
+Valid examples:
+
+<pre>
+clean-wide
+sticky-note
+floating-toc
+research-layout-2
+</pre>
+
+Invalid examples:
+
+<pre>
+../common
+MediaWiki:Common.js
+https://example.com/script.js
+clean_wide
+CleanWide
+</pre>
+
+## Administrator notes
+
+Administrators approve assets in <code>MediaWiki:HookAssetLoader.json</code> and create matching pages such as:
+
+<pre>
+MediaWiki:HookAsset-clean-wide.css
+MediaWiki:HookAsset-clean-wide.js
+</pre>
+
+Only users with the <code>hookassetloader-manage</code> right should be allowed to manage these pages.

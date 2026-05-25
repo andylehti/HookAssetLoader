@@ -1,0 +1,17 @@
+{
+	"name": "metopedia/hook-asset-loader",
+	"description": "Loads administrator-approved JS/CSS assets from the MediaWiki namespace only when requested by parser tag.",
+	"type": "mediawiki-extension",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Andrew Lehti"
+		}
+	],
+	"require": {},
+	"homepage": "https://github.com/andylehti/HookAssetLoader",
+	"support": {
+		"issues": "https://github.com/andylehti/HookAssetLoader/issues",
+		"source": "https://github.com/andylehti/HookAssetLoader"
+	}
+}

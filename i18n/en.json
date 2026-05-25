@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Andrew Lehti"
+		]
+	},
+	"hookassetloader-desc": "Loads administrator-approved JS/CSS assets from the MediaWiki namespace only when a page explicitly requests them via a parser tag, keeping site styles clean and optimized.",
+	"hookassetloader-error-missing": "[HookAssetLoader] Missing or invalid module attribute.",
+	"hookassetloader-error-unknown": "[HookAssetLoader] The requested asset module '$1' is not approved in MediaWiki:HookAssetLoader.json.",
+	"hookassetloader-error-empty": "[HookAssetLoader] The requested asset module '$1' is approved, but no matching CSS or JavaScript asset page exists.",
+	"hookassetloader-permission-denied": "Only users with the hookassetloader-manage right may edit HookAssetLoader asset pages."
+}

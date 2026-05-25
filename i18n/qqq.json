@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Andrew Lehti"
+		]
+	},
+	"hookassetloader-desc": "Short description shown on Special:Version. JS/CSS is intentionally written this way because the extension loads both JavaScript and CSS assets.",
+	"hookassetloader-error-missing": "Error displayed when the parser tag has no module/name attribute or the supplied asset name fails validation.",
+	"hookassetloader-error-unknown": "Error displayed when a requested asset name is valid but not present and enabled in the registry page. $1 is the normalized asset name.",
+	"hookassetloader-error-empty": "Error displayed when a requested asset is approved but no matching MediaWiki namespace CSS or JavaScript page exists. $1 is the normalized asset name.",
+	"hookassetloader-permission-denied": "Permission error displayed when a user without the hookassetloader-manage right attempts to edit, create, delete, move, protect, or submit a controlled HookAssetLoader page."
+}

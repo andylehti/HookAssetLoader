@@ -1,0 +1,164 @@
+{{Extension
+|name = HookAssetLoader
+|status = beta
+|type = parserhook
+|author = Andrew Lehti
+|version = 1.0.2
+|license = MIT
+|download = https://github.com/andylehti/HookAssetLoader
+|readme = https://github.com/andylehti/HookAssetLoader/blob/main/README.md
+|requires = MediaWiki 1.39+
+|compatibility policy = master
+|description = Loads administrator-approved JS/CSS assets from the MediaWiki namespace only when a page explicitly requests them via a parser tag, keeping site styles clean and optimized.
+|rights = hookassetloader-manage
+|tags = parser hook, ResourceLoader, JavaScript, CSS
+}}
+
+'''HookAssetLoader''' is a MediaWiki extension that loads administrator-approved JavaScript and CSS assets from the {{ns:8}} namespace only when a page explicitly requests them via a parser tag.
+
+It is intended for page-specific layouts, page tools, and controlled interface assets that should not be placed in global site files such as {{ll|Manual:Interface/Stylesheets|MediaWiki:Common.css}} or {{ll|Manual:Interface/JavaScript|MediaWiki:Common.js}}.
+
+== Features ==
+
+* Adds the <code>&lt;hook-load module="name"&gt;</code> parser tag.
+* Adds <code>&lt;hookasset name="name"&gt;</code> as an alias.
+* Loads CSS from approved <code>MediaWiki:HookAsset-name.css</code> pages.
+* Loads JavaScript from approved <code>MediaWiki:HookAsset-name.js</code> pages.
+* Uses ResourceLoader instead of raw script or style injection.
+* Requires each asset to be approved in <code>MediaWiki:HookAssetLoader.json</code>.
+* Restricts asset management pages with the <code>hookassetloader-manage</code> right.
+* Allows per-asset ResourceLoader dependencies.
+
+== Requirements ==
+
+* MediaWiki 1.39 or later.
+* No required extension dependencies.
+
+== Installation ==
+
+Download and place the files in a directory called <code>HookAssetLoader</code> in your <code>extensions/</code> folder.
+
+Add the following code at the bottom of your <code>LocalSettings.php</code>:
+
+<syntaxhighlight lang="php">
+wfLoadExtension( 'HookAssetLoader' );
+</syntaxhighlight>
+
+Run the update script if your deployment workflow requires it:
+
+<syntaxhighlight lang="bash">
+php maintenance/run.php update
+</syntaxhighlight>
+
+== Configuration ==
+
+{| class="wikitable"
+! Setting
+! Default
+! Description
+|-
+| <code>$wgHookAssetLoaderRegistryPage</code>
+| <code>HookAssetLoader.json</code>
+| MediaWiki namespace page used as the approval registry.
+|-
+| <code>$wgHookAssetLoaderAssetPrefix</code>
+| <code>HookAsset-</code>
+| Prefix used for controlled CSS and JavaScript asset pages.
+|-
+| <code>$wgHookAssetLoaderDefaultDependencies</code>
+| <code>[ 'mediawiki.util', 'jquery' ]</code>
+| Default ResourceLoader dependencies for JavaScript assets when an asset does not define its own dependencies.
+|-
+| <code>$wgHookAssetLoaderDebugErrors</code>
+| <code>true</code>
+| Whether invalid or missing asset requests should render inline error messages.
+|}
+
+== Rights ==
+
+HookAssetLoader adds the following right:
+
+* <code>hookassetloader-manage</code>
+
+By default, the right is granted to <code>interface-admin</code>. A site may grant it to another trusted group in <code>LocalSettings.php</code>:
+
+<syntaxhighlight lang="php">
+$wgGroupPermissions['sysop']['hookassetloader-manage'] = true;
+</syntaxhighlight>
+
+Grant this right only to users trusted to manage site JavaScript and CSS.
+
+== Registry page ==
+
+Create <code>MediaWiki:HookAssetLoader.json</code>:
+
+<syntaxhighlight lang="json">
+{
+	"assets": {
+		"clean-wide": {
+			"enabled": true,
+			"styles": true,
+			"scripts": false
+		},
+		"floating-toc": {
+			"enabled": true,
+			"styles": true,
+			"scripts": true,
+			"dependencies": [
+				"mediawiki.util",
+				"jquery"
+			]
+		}
+	}
+}
+</syntaxhighlight>
+
+== Asset pages ==
+
+For an asset named <code>clean-wide</code>, create one or both pages:
+
+<pre>
+MediaWiki:HookAsset-clean-wide.css
+MediaWiki:HookAsset-clean-wide.js
+</pre>
+
+== Usage ==
+
+<syntaxhighlight lang="html">
+<hook-load module="clean-wide"></hook-load>
+</syntaxhighlight>
+
+With wrapped content:
+
+<syntaxhighlight lang="html">
+<hook-load module="sticky-note">
+Please remember to sign posts using four tildes.
+</hook-load>
+</syntaxhighlight>
+
+== Security ==
+
+Asset names must match this pattern:
+
+<pre>
+^[a-z][a-z0-9-]{0,63}$
+</pre>
+
+The parser tag cannot load arbitrary URLs, arbitrary page titles, raw inline JavaScript, or raw inline CSS. It can only load approved ResourceLoader modules generated from controlled pages in the {{ns:8}} namespace.
+
+== Similar extensions ==
+
+* {{ll|Extension:Gadgets}} — provides user-selectable or default gadgets. HookAssetLoader is parser-tag driven and registry-controlled.
+* {{ll|Extension:TemplateStyles}} — loads sanitized template CSS. HookAssetLoader supports both JavaScript and CSS through ResourceLoader.
+* {{ll|Extension:CSS}} — allows page-level CSS. HookAssetLoader adds explicit registry approval and JavaScript support.
+
+== See also ==
+
+* {{ll|ResourceLoader}}
+* {{ll|Manual:Tag extensions}}
+* {{ll|Manual:Interface/JavaScript}}
+* {{ll|Manual:Interface/Stylesheets}}
+
+[[Category:Parser extensions]]
+[[Category:Extensions using ResourceLoader]]
+[[Category:Extensions]]
